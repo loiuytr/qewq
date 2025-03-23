@@ -268,24 +268,24 @@ def level1_game():
 def level2_game():
     global playr_x, playr_y, jump, start_jump, grounded
     playr_x = 0
-    playr_y = HEIGHT - playr_height  # Спавн на самому низу
+    playr_y = HEIGHT - playr_height  
     jump = False
-    grounded = False  # Прапор для перевірки, чи гравець на платформі
+    grounded = False  
 
-    # Перешкоди для рівня 2
-    wall1 = Barriel((255, 0, 0), 300, HEIGHT - 50, 150, 50)  # червона стіна
-    wall2 = Barriel((0, 255, 0), 500, 550, 100, 30)  # зелена платформа
-    wall3 = Barriel((0, 0, 255), 700, 500, 120, 40)  # синя платформа
-    wall4 = Barriel((255, 255, 0), 950, 400, 90, 30)  # жовта стіна
-    wall5 = Barriel((255, 255, 255), 1000, 650, 100, 50)  # біла стіна
-    enemy = Barriel((0, 0, 0), 800, 600, 20, 50)  # ворог
-    enemy1 = Barriel((0, 0, 0), 900, 500, 20, 50)  # ворог
-    enemy2 = Barriel((0, 0, 0), 650, 400, 20, 50)  # ворог
-    moving_platform = Barriel((255, 165, 0), 400, 300, 100, 30)  # рухома платформа
 
-    finish = Barriel((0, 255, 0), 1180, 300, 200, 100)  # фініш
+    wall1 = Barriel((255, 0, 0), 300, HEIGHT - 50, 150, 50) 
+    wall2 = Barriel((0, 255, 0), 500, 550, 100, 30)  
+    wall3 = Barriel((0, 0, 255), 700, 500, 120, 40) 
+    wall4 = Barriel((255, 255, 0), 950, 400, 90, 30) 
+    wall5 = Barriel((255, 255, 255), 1000, 650, 100, 50) 
+    enemy = Barriel((0, 0, 0), 800, 600, 20, 50)  
+    enemy1 = Barriel((0, 0, 0), 900, 500, 20, 50)  
+    enemy2 = Barriel((0, 0, 0), 650, 400, 20, 50)  
+    moving_platform = Barriel((255, 165, 0), 400, 300, 100, 30)  
 
-    # Ініціалізація напрямку для рухомої платформи
+    finish = Barriel((0, 255, 0), 1180, 300, 200, 100)  
+
+
     moving_platform_direction = 1  # 1 - вправо, -1 - вліво
 
     level2_active = True
@@ -309,7 +309,7 @@ def level2_game():
         moving_platform_rect = pygame.Rect(moving_platform.x, moving_platform.y, moving_platform.width, moving_platform.height)
         finish_rect = pygame.Rect(finish.x, finish.y, finish.width, finish.height)
 
-        # Player movement
+     
         if keys[pygame.K_a] and playr_x > 0:
             new_rect = player_rect.move(-playr_speed, 0)
             if not wall1_rect.colliderect(new_rect) and not wall2_rect.colliderect(new_rect) and not wall3_rect.colliderect(new_rect):
@@ -324,7 +324,7 @@ def level2_game():
             jump = True
             start_jump = jump_streng
 
-        # Стрибок
+  
         if jump:
             playr_y += start_jump
             start_jump += gravity
@@ -334,8 +334,8 @@ def level2_game():
                 jump = False
                 start_jump = 0
 
-            # Перевірка на зіткнення з платформами тільки коли гравець падає
-            if start_jump > 0:  # Якщо гравець рухається вниз
+           
+            if start_jump > 0:  
                 if player_rect.colliderect(wall1_rect) and player_rect.bottom <= wall1.y + start_jump:
                     playr_y = wall1.y - playr_height
                     jump = False
@@ -360,7 +360,7 @@ def level2_game():
                     start_jump = 0
                     grounded = True
 
-        # Якщо гравець на платформі
+      
         if not jump and grounded:
             grounded = True
             start_jump = 0
@@ -371,15 +371,15 @@ def level2_game():
             
             
      
-             # Якщо не на платформі, він не стоїть на місці
+          
 
-        # Якщо не стоїш на платформі, не падаєш (залишаєшся на місці)
+   
         if not grounded and not jump:
-            playr_y = playr_y  # Нічого не змінюється
+            playr_y = playr_y 
 
 
 
-        # Перевірка на фініш
+
         if player_rect.colliderect(finish_rect):
             font = pygame.font.Font(None, 74)
             win_text = font.render('You Win!!', True, (255, 255, 255))
@@ -390,7 +390,7 @@ def level2_game():
             menu()
             reset_player()
 
-        # Вороги
+
         if player_rect.colliderect(enemy_rect) or player_rect.colliderect(enemy1_rect) :
             font = pygame.font.Font(None, 74)
             lose_text = font.render('You Lose', True, (255, 255, 255))
@@ -401,16 +401,15 @@ def level2_game():
             menu()
             reset_player()
 
-        # Рухома платформа
         moving_platform.x += moving_platform_direction * 2
         if moving_platform.x <= 0 or moving_platform.x >= WIDTH - moving_platform.width:
-            moving_platform_direction *= -1  # Перевертаємо напрямок
+            moving_platform_direction *= -1  
 
-        # Оновлення екрану
+       
         screen.blit(background, (0, 0))
         screen.blit(player_skin, (playr_x, playr_y))
 
-        # Малюємо перешкоди
+
         wall1.draw()
         wall2.draw()
         wall3.draw()
@@ -429,6 +428,6 @@ def level2_game():
 
 
 
-# Запуск меню
+
 menu()
 pygame.quit()
