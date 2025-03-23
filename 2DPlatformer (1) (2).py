@@ -116,10 +116,10 @@ def menu():
                             mouse_pos = pygame.mouse.get_pos()
                             if level2_rect.collidepoint(mouse_pos):
                                 level_active = False
-                                level2_game()  # Запуск рівня 2
+                                level2_game()
                             if level1_rect.collidepoint(mouse_pos):
                                 level_active = False
-                                level1_game()  # Запуск рівня 1
+                                level1_game()  
                 elif exit_rect.collidepoint(mouse_pos):
                     menu_active = False
                     running = False
@@ -286,7 +286,7 @@ def level2_game():
     finish = Barriel((0, 255, 0), 1180, 300, 200, 100)  
 
 
-    moving_platform_direction = 1  # 1 - вправо, -1 - вліво
+    moving_platform_direction = 1  
 
     level2_active = True
     while level2_active:
@@ -317,6 +317,7 @@ def level2_game():
 
         if keys[pygame.K_d] and playr_x < WIDTH - playr_width:
             new_rect = player_rect.move(playr_speed, 0)
+            
             if not wall1_rect.colliderect(new_rect) and not wall2_rect.colliderect(new_rect) and not wall3_rect.colliderect(new_rect):
                 playr_x += playr_speed
 
@@ -324,7 +325,8 @@ def level2_game():
             jump = True
             start_jump = jump_streng
 
-  
+
+
         if jump:
             playr_y += start_jump
             start_jump += gravity
@@ -400,8 +402,18 @@ def level2_game():
             pygame.time.delay(2000)
             menu()
             reset_player()
+            
+        if player_rect.colliderect(moving_platform_rect):
+            font = pygame.font.Font(None, 74)
+            lose_text = font.render('You Lose', True, (255, 255, 255))
+            screen.fill((0, 0, 0))
+            screen.blit(lose_text, lose_text.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+            pygame.display.flip()
+            pygame.time.delay(2000)
+            menu()
+            reset_player()
 
-        moving_platform.x += moving_platform_direction * 2
+        moving_platform.x += moving_platform_direction * 100
         if moving_platform.x <= 0 or moving_platform.x >= WIDTH - moving_platform.width:
             moving_platform_direction *= -1  
 
